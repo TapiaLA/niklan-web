@@ -1,10 +1,49 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import emailjs from '@emailjs/browser'
 import { Link } from 'react-router-dom'
 
+
 const Landing = () => {
+// Lógica de EmailJS que ya tienes...
   const form = useRef();
   const [status, setStatus] = useState("Enviar Mensaje");
+
+  // --- NUEVA LÓGICA DE LA CONSOLA ---
+  const endOfLogsRef = useRef(null);
+  const [logs, setLogs] = useState([
+    { text: "root@itess-node:~# ./start_meowl.sh", color: "text-primary-fixed" },
+    { text: "[INFO] Inicializando núcleos de red neuronal...", color: "text-zinc-400" }
+  ]);
+
+  useEffect(() => {
+    // FASE 1: Simulación. Aquí irá tu socket.on('log', ...) en el futuro
+    const mensajesSimulados = [
+      { text: "[OK] Conectando módulos de inteligencia...", color: "text-tertiary-container" },
+      { text: "[Meowl] Escuchando puerto 3000...", color: "text-zinc-400" },
+      { text: "[WARN] Intento de conexión no autorizada bloqueado.", color: "text-error" },
+      { text: "[Xio] Sincronizando base de datos...", color: "text-zinc-400" },
+      { text: "[OK] Sistemas 100% operativos.", color: "text-tertiary-container" }
+    ];
+
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < mensajesSimulados.length) {
+        setLogs(prevLogs => [...prevLogs, mensajesSimulados[index]]);
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 2000); // Lanza un mensaje nuevo cada 2 segundos
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Hace auto-scroll hacia abajo cada vez que llega un log nuevo
+  useEffect(() => {
+    endOfLogsRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [logs]);
+  // --- FIN LÓGICA DE LA CONSOLA ---
+
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -79,21 +118,29 @@ const Landing = () => {
                 </p>
               </div>
 
-              {/* Terminal Simulator */}
-              <div className="bg-surface-container-lowest border border-zinc-800 rounded-lg p-sm font-mono text-xs text-on-surface-variant overflow-x-auto mt-auto shadow-inner">
-                <div className="flex gap-2 mb-2 border-b border-zinc-800 pb-2">
+              {/* Terminal Simulator (Ahora Dinámico) */}
+              <div className="bg-surface-container-lowest border border-zinc-800 rounded-lg p-sm font-mono text-xs text-on-surface-variant overflow-hidden mt-auto shadow-inner h-[180px] flex flex-col relative">
+                
+                {/* Botones de ventana */}
+                <div className="flex gap-2 mb-2 border-b border-zinc-800 pb-2 sticky top-0 bg-surface-container-lowest z-10">
                   <div className="w-3 h-3 rounded-full bg-error"></div>
                   <div className="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></div>
                   <div className="w-3 h-3 rounded-full bg-primary-fixed"></div>
+                  <span className="ml-auto text-[10px] text-zinc-600 opacity-70">Meowl_Console // Live</span>
                 </div>
-                <code>
-                  <span className="text-primary-fixed">root@itess-node:~#</span> ./deploy_xio_bot.sh<br/>
-                  [OK] Refactorización de base de datos...<br/>
-                  [OK] Conectando módulos de inteligencia...<br/>
-                  <span className="text-tertiary-container">Sistemas 100% operativos.</span>
-                </code>
+
+                {/* Área de Logs con scroll */}
+                <div className="flex flex-col gap-1 overflow-y-auto flex-grow pb-2 scroll-smooth">
+                  {logs.map((log, index) => (
+                    <code key={index} className={`whitespace-nowrap ${log.color}`}>
+                      {log.text}
+                    </code>
+                  ))}
+                  {/* Punto de anclaje para el scroll automático */}
+                  <div ref={endOfLogsRef} />
+                </div>
               </div>
-            </div>
+            </div> {/* Cierre de la columna 1 (Software & AI) */}
 
             {/* Column 2: Hardware Services */}
             <div id="hardware" className="flex flex-col gap-grid-gutter scroll-mt-24">

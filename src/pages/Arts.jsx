@@ -37,7 +37,7 @@ const Arts = () => {
                     src="/deus_corruptus_506.gif"
                     alt="Deus Corruptus Main"
                     className="w-full h-full object-cover rounded-l cursor-zoom-in hover:scale-[1.01] transition-transform duration-300 shadow-lg border border-zinc-800/80"
-                    onClick={() => setSelectedImage('public/deus_corruptus_506.gif')}
+                    onClick={() => setSelectedImage('/deus_corruptus_506.gif')}
                   />
                 </div>
                 
@@ -47,7 +47,7 @@ const Arts = () => {
                     src="/deus_corruptus_100.gif"
                     alt="Deus Corruptus Side"
                     className="w-full h-full object-cover rounded-r cursor-zoom-in hover:scale-[1.02] transition-transform duration-300 shadow-lg border border-zinc-800/80"
-                    onClick={() => setSelectedImage('public/deus_corruptus_100.gif')}
+                    onClick={() => setSelectedImage('/deus_corruptus_100.gif')}
                   />
                 </div>
 

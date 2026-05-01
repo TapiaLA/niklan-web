@@ -220,8 +220,8 @@ const Arts = () => {
             <div>
               <h3 className="text-red-600 font-bold tracking-widest mb-6">ENLACES</h3>
               <ul className="space-y-4 text-zinc-400 text-sm">
-                <li><Link to="/privacy-policy" className="hover:text-white transition-colors">Políticas de Privacidad</Link></li>
-                <li><Link to="/terms-of-service" className="hover:text-white transition-colors">Términos de servicio</Link></li>
+                <li><Link to="/privacy" className="hover:text-white transition-colors">Políticas de Privacidad</Link></li>
+                <li><Link to="/terms" className="hover:text-white transition-colors">Términos de servicio</Link></li>
               </ul>
             </div>
 

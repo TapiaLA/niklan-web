@@ -4,43 +4,60 @@ import { Link } from 'react-router-dom'
 
 
 const Landing = () => {
-// Lógica de EmailJS que ya tienes...
+// Lógica de EmailJS
   const form = useRef();
   const [status, setStatus] = useState("Enviar Mensaje");
 
-  // --- NUEVA LÓGICA DE LA CONSOLA ---
-  const endOfLogsRef = useRef(null);
-  const [logs, setLogs] = useState([
-    { text: "root@itess-node:~# ./start_meowl.sh", color: "text-primary-fixed" },
-    { text: "[INFO] Inicializando núcleos de red neuronal...", color: "text-zinc-400" }
-  ]);
+// --- NUEVA LÓGICA DE LA CONSOLA ---
+  const consoleContainerRef = useRef(null);
+  const [logs, setLogs] = useState([]);
 
   useEffect(() => {
-    // FASE 1: Simulación. Aquí irá tu socket.on('log', ...) en el futuro
+    // Amplié un poco la lista para que el bucle infinito se vea más natural
     const mensajesSimulados = [
+      { text: "root@itess-node:~# ./start_meowl.sh", color: "text-primary-fixed" },
+      { text: "[INFO] Inicializando núcleos de red neuronal...", color: "text-zinc-400" },
       { text: "[OK] Conectando módulos de inteligencia...", color: "text-tertiary-container" },
       { text: "[Meowl] Escuchando puerto 3000...", color: "text-zinc-400" },
       { text: "[WARN] Intento de conexión no autorizada bloqueado.", color: "text-error" },
       { text: "[Xio] Sincronizando base de datos...", color: "text-zinc-400" },
-      { text: "[OK] Sistemas 100% operativos.", color: "text-tertiary-container" }
+      { text: "[OK] Sistemas 100% operativos.", color: "text-tertiary-container" },
+      { text: "root@itess-node:~# pm2 flush", color: "text-primary-fixed" },
+      { text: "[INFO] Vaciando registros antiguos...", color: "text-zinc-400" },
+      { text: "[OK] Memoria caché liberada.", color: "text-tertiary-container" }
     ];
 
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < mensajesSimulados.length) {
-        setLogs(prevLogs => [...prevLogs, mensajesSimulados[index]]);
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 2000); // Lanza un mensaje nuevo cada 2 segundos
+    // Iniciamos con las dos primeras líneas siempre
+    setLogs([mensajesSimulados[0], mensajesSimulados[1]]);
+    let index = 2;
 
+    const interval = setInterval(() => {
+      setLogs((prevLogs) => {
+        // El operador % hace que si index es 10, regrese al índice 0 mágicamente
+        const nuevoMensaje = mensajesSimulados[index % mensajesSimulados.length];
+        
+        // Sumamos el nuevo mensaje y mantenemos solo los últimos 15
+        return [...prevLogs, nuevoMensaje].slice(-15);
+      });
+      index++;
+    }, 2000);
+
+    // Limpieza estricta para evitar duplicados
     return () => clearInterval(interval);
   }, []);
 
-  // Hace auto-scroll hacia abajo cada vez que llega un log nuevo
+// Efecto para hacer auto-scroll SOLO en la consola
   useEffect(() => {
-    endOfLogsRef.current?.scrollIntoView({ behavior: "smooth" });
+    const timer = setTimeout(() => {
+      if (consoleContainerRef.current) {
+        consoleContainerRef.current.scrollTo({
+          top: consoleContainerRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }, 50);
+
+    return () => clearTimeout(timer);
   }, [logs]);
   // --- FIN LÓGICA DE LA CONSOLA ---
 
@@ -118,11 +135,11 @@ const Landing = () => {
                 </p>
               </div>
 
-              {/* Terminal Simulator (Ahora Dinámico) */}
+             {/* Terminal Simulator (Ahora Dinámico y Corregido) */}
               <div className="bg-surface-container-lowest border border-zinc-800 rounded-lg p-sm font-mono text-xs text-on-surface-variant overflow-hidden mt-auto shadow-inner h-[180px] flex flex-col relative">
                 
-                {/* Botones de ventana */}
-                <div className="flex gap-2 mb-2 border-b border-zinc-800 pb-2 sticky top-0 bg-surface-container-lowest z-10">
+                {/* Botones de ventana (shrink-0 asegura que nunca se aplasten) */}
+                <div className="flex gap-2 mb-2 border-b border-zinc-800 pb-2 sticky top-0 bg-surface-container-lowest z-10 shrink-0">
                   <div className="w-3 h-3 rounded-full bg-error"></div>
                   <div className="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></div>
                   <div className="w-3 h-3 rounded-full bg-primary-fixed"></div>
@@ -130,14 +147,15 @@ const Landing = () => {
                 </div>
 
                 {/* Área de Logs con scroll */}
-                <div className="flex flex-col gap-1 overflow-y-auto flex-grow pb-2 scroll-smooth">
+                <div 
+                  ref={consoleContainerRef}
+                  className="flex flex-col gap-1 overflow-y-auto overflow-x-auto flex-grow pb-2 scroll-smooth"
+                >
                   {logs.map((log, index) => (
                     <code key={index} className={`whitespace-nowrap ${log.color}`}>
                       {log.text}
                     </code>
                   ))}
-                  {/* Punto de anclaje para el scroll automático */}
-                  <div ref={endOfLogsRef} />
                 </div>
               </div>
             </div> {/* Cierre de la columna 1 (Software & AI) */}

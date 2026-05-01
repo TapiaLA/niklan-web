@@ -34,7 +34,7 @@ const Arts = () => {
                 {/* GIF Principal (Proporción exacta 5.06 respecto al lateral) */}
                 <div style={{ flex: 5.06 }} className="flex flex-col">
                   <img
-                    src="public/deus_corruptus_506.gif"
+                    src="/deus_corruptus_506.gif"
                     alt="Deus Corruptus Main"
                     className="w-full h-full object-cover rounded-l cursor-zoom-in hover:scale-[1.01] transition-transform duration-300 shadow-lg border border-zinc-800/80"
                     onClick={() => setSelectedImage('public/deus_corruptus_506.gif')}
@@ -44,7 +44,7 @@ const Arts = () => {
                 {/* GIF Lateral (Proporción exacta 1, ahora visible siempre) */}
                 <div style={{ flex: 1 }} className="flex flex-col">
                   <img
-                    src="public/deus_corruptus_100.gif"
+                    src="/deus_corruptus_100.gif"
                     alt="Deus Corruptus Side"
                     className="w-full h-full object-cover rounded-r cursor-zoom-in hover:scale-[1.02] transition-transform duration-300 shadow-lg border border-zinc-800/80"
                     onClick={() => setSelectedImage('public/deus_corruptus_100.gif')}

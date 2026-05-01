@@ -74,3 +74,92 @@ body {
 .animate-glitch-2 {
   animation: glitch-2 0.4s infinite linear alternate-reverse;
 }
+/* --- ESTILOS DEL NAVBAR NIKLAN --- */
+    .niklan-navbar {
+      background-color: rgba(5, 5, 5, 0.85) !important; /* Negro translúcido */
+      backdrop-filter: blur(12px); /* Efecto cristal desenfocado */
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(34, 197, 94, 0.2) !important; /* Borde verde sutil */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .niklan-navbar .nav-link {
+      color: rgba(255, 255, 255, 0.7) !important;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    /* Brillo verde al pasar el ratón o estar activo */
+    .niklan-navbar .nav-link:hover, 
+    .niklan-navbar .nav-link.active {
+      color: #22c55e !important;
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+    }
+    /* =========================================
+   ESTILOS PERSONALIZADOS NIKLAN ARTS (CSS PURO)
+   ========================================= */
+
+/* 1. SCROLLBAR CYBERPUNK (Para navegadores Webkit) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}
+
+/* 2. COMPORTAMIENTO GLOBAL */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 3. TÍTULOS GLITCH (Efecto de sombra doble) */
+.glitch-title {
+  color: #f01616;
+  text-shadow: 2px 2px #000;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.glitch-title-success {
+  color: #22c55e;
+  text-shadow: 2px 2px #000, 0 0 15px rgba(34, 197, 94, 0.4);
+}
+
+/* 4. ANIMACIONES GLOBALES (Fade In) */
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 5. RESPLANDOR (Shadow Glow) */
+.shadow-glow {
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+/* 6. CORRECCIÓN DE SELECCIÓN DE TEXTO */
+::selection {
+  background: rgba(34, 197, 94, 0.3); /* Fondo verde tenue */
+  color: white;
+}
